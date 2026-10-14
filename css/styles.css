@@ -346,7 +346,8 @@ section { position: relative; isolation: isolate; }
   font: 400 1rem/1.4 var(--sans);
   color: var(--charcoal);
   background: var(--paper);
-  border: 1px solid var(--moss);
+  /* Hairline on high-resolution screens; browsers round it up to 1px on standard ones. */
+  border: 0.5px solid var(--moss);
   border-radius: 2px;
   padding: 16px;
   transition: border-color 0.2s ease;
@@ -363,7 +364,7 @@ section { position: relative; isolation: isolate; }
 .field input::placeholder, .field textarea::placeholder { color: #706e65; }
 .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--forest); }
 /* Outline as well as the border change, so focus stands out at more than 3:1. */
-.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--forest); outline-offset: 2px; border-color: var(--forest); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 1px solid var(--forest); outline-offset: 2px; border-color: var(--forest); }
 .field [aria-invalid="true"] { border-color: var(--error); }
 .error { font-size: 0.875rem; color: var(--error); }
 .error:empty { display: none; }
