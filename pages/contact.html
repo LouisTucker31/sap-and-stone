@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Contact | Sap + Stone</title>
+<meta name="description" content="Talk to Sap + Stone about garden design, planting or maintenance in Henley-on-Thames and nearby Oxfordshire.">
+<link rel="icon" href="../assets/images/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@500&amp;family=Montserrat:wght@300;400;500&amp;display=swap">
+<link rel="stylesheet" href="../css/styles.css">
+<script src="../js/main.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="site-header">
+  <div class="page-width">
+    <a href="../index.html" aria-label="Sap + Stone, garden design and maintenance. Home"><span class="brand-mark" aria-hidden="true"></span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="btn header-cta" href="contact.html">Get in touch</a>
+  </div>
+</header>
+
+<main id="content" tabindex="-1">
+
+  <section class="page-head page-head-contact" aria-labelledby="contact-title">
+    <span class="leaf" aria-hidden="true"></span>
+    <div class="page-width">
+      <h1 id="contact-title">Let&rsquo;s talk about your garden.</h1>
+      <p class="lede">Whether you have a clear plan or just a feeling that the garden could be better, we would like to hear from you.</p>
+    </div>
+  </section>
+
+  <section class="contact-section band" aria-label="Contact details and enquiry form">
+    <div class="page-width">
+      <div class="contact-aside">
+        <h2>A personal approach, from the first hello.</h2>
+        <dl class="details">
+          <div><dt>Telephone</dt><dd><a href="tel:+441491123456">01491 123 456</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:hello@sapandstone.co.uk">hello@sapandstone.co.uk</a></dd></div>
+          <div><dt>Area covered</dt><dd>Henley-on-Thames and nearby Oxfordshire</dd></div>
+        </dl>
+      </div>
+
+      <!-- TODO: set data-endpoint to the form handler (Formspree, Netlify Forms or your own) and add its origin to connect-src in the CSP. -->
+      <form class="enquiry" id="enquiry" data-endpoint="" novalidate aria-label="Send an enquiry">
+        <div class="field">
+          <label for="f-name">Your name <small>(required)</small></label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="f-name-error">
+          <p class="error" id="f-name-error"></p>
+        </div>
+        <div class="field">
+          <label for="f-email">Email address <small>(required)</small></label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com" aria-describedby="f-email-error">
+          <p class="error" id="f-email-error"></p>
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone number <small>(optional)</small></label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="20" pattern="[0-9 +()]{7,20}" aria-describedby="f-phone-error">
+          <p class="error" id="f-phone-error"></p>
+        </div>
+        <div class="field">
+          <label for="f-location">Project location</label>
+          <input id="f-location" name="location" type="text" autocomplete="postal-code" maxlength="80" placeholder="Town or postcode">
+        </div>
+        <div class="field full">
+          <label for="f-service">How can we help?</label>
+          <select id="f-service" name="service">
+            <option value="">Choose a service</option>
+            <option>Garden design</option>
+            <option>Planting</option>
+            <option>Maintenance</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="f-message">Tell us about your garden <small>(required)</small></label>
+          <textarea id="f-message" name="message" required minlength="10" maxlength="2000" placeholder="Size, what you like, what you would change" aria-describedby="f-message-error"></textarea>
+          <p class="error" id="f-message-error"></p>
+        </div>
+        <div class="form-foot">
+          <button class="btn" type="submit">Send enquiry
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+          </button>
+          <p>We only use your details to reply to your enquiry.</p>
+        </div>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        <p class="visually-hidden" id="field-alert" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="page-width">
+    <div class="footer-top">
+      <a href="../index.html" aria-label="Sap + Stone. Home"><span class="brand-mark" aria-hidden="true"></span></a>
+      <nav class="footer-nav" aria-label="Footer">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-base">
+      <span>&copy; <span id="year">2026</span> Sap + Stone, Henley-on-Thames</span>
+      <a href="mailto:hello@sapandstone.co.uk">hello@sapandstone.co.uk</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

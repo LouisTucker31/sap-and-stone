@@ -1,69 +1,11 @@
-// Mark JS as available before first paint so inactive pages stay hidden.
-document.documentElement.classList.add('js');
-
-document.addEventListener('DOMContentLoaded', function () {
-  var pages = document.querySelectorAll('[data-page]');
-  var navLinks = document.querySelectorAll('[data-nav]');
-
-  function pageFromHash() {
-    var id = location.hash.slice(1);
-    // Only page ids switch pages; any other hash (e.g. the skip link) is left alone.
-    return document.querySelector('[data-page="' + CSS.escape(id) + '"]') ? id : null;
-  }
-
-  function show(id, moveFocus) {
-    pages.forEach(function (page) {
-      page.classList.toggle('is-active', page.dataset.page === id);
-    });
-    navLinks.forEach(function (link) {
-      if (link.dataset.nav === id) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    });
-    var active = document.querySelector('[data-page="' + id + '"]');
-    document.title = active.dataset.title;
-    window.scrollTo(0, 0);
-    if (moveFocus) {
-      var heading = active.querySelector('h1');
-      if (heading) heading.focus({ preventScroll: true });
-    }
-  }
-
-  // Handle in-page links here rather than letting the browser follow the hash.
-  // Sandboxed previews (about:srcdoc) resolve "#gallery" against the parent URL and blank the frame.
-  document.addEventListener('click', function (event) {
-    var link = event.target.closest('a[href^="#"]');
-    if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    var id = link.getAttribute('href').slice(1);
-    event.preventDefault();
-    if (document.querySelector('[data-page="' + CSS.escape(id) + '"]')) {
-      show(id, true);
-      try {
-        history.pushState({ page: id }, '', '#' + id);
-      } catch (err) {
-        // Some previews refuse history changes. The page still switches, only the URL stays put.
-      }
-      return;
-    }
-    var target = document.getElementById(id);
-    if (target) target.focus();
-  });
-
-  function syncFromUrl() {
-    show(pageFromHash() || 'home', true);
-  }
-  window.addEventListener('popstate', syncFromUrl);
-  window.addEventListener('hashchange', syncFromUrl);
-  show(pageFromHash() || 'home', false);
-  // A direct link to #gallery or #contact makes the browser jump to that page's container,
-  // hiding the header. Start at the top instead.
-  window.addEventListener('load', function () {
-    if (pageFromHash()) window.scrollTo(0, 0);
-  });
-
+// Loaded with defer, so the DOM is ready. Wrapped to keep these names out of the global scope.
+(function () {
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Enquiry form
+  // Enquiry form, contact page only
   var form = document.getElementById('enquiry');
+  if (!form) return;
+
   var status = document.getElementById('form-status');
   var fieldAlert = document.getElementById('field-alert');
   var messages = {
@@ -131,4 +73,4 @@ document.addEventListener('DOMContentLoaded', function () {
         button.disabled = false;
       });
   });
-});
+})();

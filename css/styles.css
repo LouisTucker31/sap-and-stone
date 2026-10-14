@@ -9,13 +9,20 @@
   --charcoal: #333333;
   --muted: #56554e;
   --rule: #d9d3c4;
+  --error: #9a3b2c;
 
   --serif: "Libre Bodoni", "Didot", "Bodoni 72", Georgia, serif;
   --sans: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 
   --gutter: clamp(20px, 5vw, 48px);
-  --max: 1200px;
+  /* Side padding for page content, and the wider one the header and footer use. */
+  --page-pad: max(var(--gutter), 8vw);
+  --edge-pad: max(var(--gutter), 4vw);
+  /* Space between copy and a photo that runs to the screen edge. */
+  --copy-gap: clamp(40px, 5vw, 96px);
   --section: clamp(72px, 11vw, 136px);
+  --section-sm: clamp(56px, 7vw, 96px);
+  --header-height: 88px;
 
   --logo: url("../assets/images/logo.png");
   --logo-light: url("../assets/images/logo-light.png");
@@ -52,22 +59,12 @@ h1, h2, h3 {
 h1 { font-size: clamp(2.5rem, 5.2vw, 4.25rem); }
 h2 { font-size: clamp(2rem, 3.6vw, 3rem); }
 h3 { font-size: clamp(1.5rem, 2.2vw, 1.875rem); }
-h1:focus { outline: none; }
 
 p { margin: 0; }
 a { color: inherit; }
 img { display: block; max-width: 100%; height: auto; }
 
-.wrap {
-  width: 100%;
-  max-width: calc(var(--max) + var(--gutter) * 2);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-}
-/* Desktop: content uses the same side padding as the hero copy instead of a fixed max width. */
-@media (min-width: 961px) {
-  .wrap { max-width: none; padding-inline: max(var(--gutter), 8vw); }
-}
+.page-width { padding: 0 var(--page-pad); }
 
 .lede { font-size: clamp(1.0625rem, 1.4vw, 1.1875rem); color: var(--muted); max-width: 34em; }
 
@@ -94,7 +91,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 :focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; }
 
-/* Brand artwork is pre-coloured PNGs, so it also shows when index.html is opened straight from disk. */
+/* Brand artwork is pre-coloured PNGs, so it also shows when a page is opened straight from disk. */
 .brand-mark {
   display: block;
   width: 200px;
@@ -145,12 +142,13 @@ img { display: block; max-width: 100%; height: auto; }
   border-bottom: 1px solid var(--rule);
   background: var(--paper);
 }
-.site-header .wrap {
+.site-header .page-width {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  min-height: 88px;
+  min-height: var(--header-height);
+  padding-inline: var(--edge-pad);
 }
 .site-nav ul {
   display: flex;
@@ -172,112 +170,67 @@ img { display: block; max-width: 100%; height: auto; }
 .site-nav a:hover { border-bottom-color: var(--stone); }
 .site-nav a[aria-current="page"] { color: var(--forest); font-weight: 500; border-bottom-color: var(--forest); }
 
-.header-cta { padding: 12px 22px; }
-
-/* Desktop: header and footer run wider than the content, closer to the screen edges. */
-@media (min-width: 961px) {
-  .site-header .wrap, .site-footer .wrap { max-width: none; padding-inline: max(var(--gutter), 4vw); }
-}
-
-/* Pages */
-.js [data-page]:not(.is-active) { display: none; }
+.header-cta { padding: 12px 24px; }
 
 section { position: relative; isolation: isolate; }
 .band { background: var(--band); }
 
-/* Photo placeholders. Swap each .ph for <img src="..." alt="..."> and the frame keeps its shape. */
 .photo { margin: 0; }
-.photo .frame { position: relative; overflow: hidden; background: #e8e2d4; }
-.photo .frame > img, .photo .frame > .ph { width: 100%; height: 100%; object-fit: cover; }
+.photo-frame { position: relative; overflow: hidden; background: #e8e2d4; }
+.photo-frame > img { width: 100%; height: 100%; object-fit: cover; }
 .photo-house { object-position: 50% 62%; }
 .photo-steps { object-position: 50% 95%; }
-.g3 { object-position: 50% 45%; }
-.ph {
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--muted);
-  background:
-    linear-gradient(135deg, transparent 49.8%, rgba(183, 177, 161, 0.45) 50%, transparent 50.2%),
-    linear-gradient(45deg, transparent 49.8%, rgba(183, 177, 161, 0.45) 50%, transparent 50.2%),
-    #e8e2d4;
-}
-.ph span { background: #e8e2d4; padding: 6px 12px; }
+.photo-quiet-corner { object-position: 50% 45%; }
 
-/* Home: hero */
+/* Home: hero. The photo runs from the centre of the page to the right edge, and the
+   copy is centred in the screen height. */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-columns: minmax(0, 1fr) 50vw;
   align-items: center;
-  gap: clamp(40px, 6vw, 96px);
-  padding-left: max(var(--gutter), calc((100vw - var(--max)) / 2));
+  /* Less the header's 1px bottom border. */
+  min-height: calc(100vh - var(--header-height) - 1px);
+  padding-left: var(--page-pad);
   overflow: hidden;
 }
-.hero-copy { padding: var(--section) 0; position: relative; z-index: 1; }
+.hero-copy { padding: 64px var(--copy-gap) 64px 0; }
 .hero-copy h1 { margin-bottom: 32px; max-width: 11em; }
 .hero-copy .lede { margin-bottom: 40px; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px 32px; }
 .hero .photo { align-self: stretch; }
-.hero .photo .frame { height: 100%; min-height: 560px; }
-.hero .leaf { width: 260px; top: -40px; left: -90px; opacity: 0.45; transform: scaleX(-1); }
-
-/* Desktop hero: photo runs from the centre of the page to the right edge,
-   copy sits further left and is centred in the screen height. */
-@media (min-width: 961px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) 50vw;
-    gap: 0;
-    min-height: calc(100vh - 89px);
-    padding-left: max(var(--gutter), 8vw);
-  }
-  .hero-copy { padding: 64px clamp(40px, 5vw, 96px) 64px 0; }
-  /* Keep the tall photo from setting the hero height; it fills whatever the copy needs. */
-  .hero .photo .frame > img { position: absolute; inset: 0; }
-  /* Leaf grows out of the top-left corner of the hero, just under the header. */
-  .hero-copy { position: static; }
-  /* Flipped vertically so the leaf's cut edge tucks under the header; nudged up and partly off the left edge. */
-  .hero .leaf { width: clamp(380px, 30vw, 600px); top: -40px; left: 0; transform: translateX(-30%) scaleY(-1); }
-}
+.hero .photo-frame { height: 100%; min-height: 560px; }
+/* Keep the tall photo from setting the hero height; it fills whatever the copy needs. */
+.hero .photo-frame > img { position: absolute; inset: 0; }
+/* The leaf grows from the hero's top-left corner, flipped so its cut edge tucks under the header. */
+.hero .leaf { width: clamp(380px, 30vw, 600px); top: -40px; left: 0; opacity: 0.45; transform: translateX(-30%) scaleY(-1); }
 
 /* Home: intro */
 .intro { padding: clamp(56px, 8vw, 104px) 0; }
-.intro .wrap {
+.intro .page-width {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
   gap: 48px clamp(40px, 6vw, 96px);
-  align-items: end;
-}
-.intro p { color: var(--muted); font-size: 1.125rem; max-width: 32em; }
-@media (min-width: 961px) {
-  .intro .wrap { align-items: center; }
-  /* Paragraph keeps its width and left alignment but its right edge meets the right padding. */
-  .intro p { justify-self: end; }
-}
-
-/* Home: services. Same text pattern as the approach section below, mirrored so the photo sits right. */
-.services { padding: var(--section) 0; }
-.services .wrap {
-  display: grid;
-  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-  gap: 48px clamp(48px, 7vw, 112px);
   align-items: center;
 }
+/* Keeps its width and left alignment, but its right edge meets the right padding. */
+.intro p { justify-self: end; color: var(--muted); font-size: 1.125rem; max-width: 32em; }
+
+/* Home: services. Same photo treatment as the hero. */
+.services { padding: var(--section) 0; overflow: hidden; }
+.services .page-width {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 50vw;
+  align-items: center;
+  padding-right: 0;
+}
+.services-copy { padding-right: var(--copy-gap); }
 .services-copy h2 { margin-bottom: 32px; max-width: 12em; }
 .services-copy > p { color: var(--muted); max-width: 32em; margin-bottom: 48px; }
-.services-photo .frame { aspect-ratio: 4 / 5; }
-@media (min-width: 961px) {
-  /* Photo runs from the centre of the page to the right edge, like the hero. */
-  .services { overflow: hidden; }
-  .services .wrap { grid-template-columns: minmax(0, 1fr) 50vw; gap: 0; padding-right: 0; }
-  .services-copy { padding-right: clamp(40px, 5vw, 96px); }
-  .services-photo .frame { aspect-ratio: auto; height: clamp(560px, 42vw, 800px); }
-}
+.services-photo .photo-frame { height: clamp(560px, 42vw, 800px); }
 
 /* Home: approach */
 .approach { padding: var(--section) 0; overflow: hidden; }
-.approach .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; }
+.approach .page-width { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; }
 .approach-copy { grid-column: 2; position: relative; z-index: 1; }
 .approach-copy h2 { margin-bottom: 32px; max-width: 12em; }
 .approach-copy > p { color: var(--muted); max-width: 32em; margin-bottom: 48px; }
@@ -294,26 +247,20 @@ section { position: relative; isolation: isolate; }
 .values dd { margin: 0; color: var(--muted); font-size: 0.9375rem; }
 
 /* Closing call to action, shared by home and gallery */
-.closing { padding: clamp(64px, 9vw, 112px) 0; border-top: 1px solid var(--rule); }
-.closing .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px 48px; }
+.closing { padding: clamp(64px, 9vw, 112px) 0; }
+.closing .page-width { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px 48px; }
 .closing h2 { max-width: 14em; }
 .closing p { color: var(--muted); margin-top: 16px; }
-@media (min-width: 961px) {
-  .closing { border-top: 0; }
-  .closing .wrap { align-items: center; }
-}
 
 /* Inner page headings */
 .page-head { padding: var(--section) 0 clamp(56px, 7vw, 88px); overflow: hidden; }
 .page-head h1 { margin-bottom: 24px; max-width: 12em; }
 .page-head .leaf { width: 340px; top: -60px; right: -80px; opacity: 0.5; transform: rotate(180deg) scaleX(-1); }
-/* Desktop contact page: leaf sits lower and further in so more of it shows. */
-@media (min-width: 961px) {
-  #contact .page-head .leaf { top: 0; right: 40px; }
-}
+/* Contact: leaf sits lower and further in so more of it shows. */
+.page-head-contact .leaf { top: 0; right: 40px; }
 
 /* Gallery */
-.gallery-section { padding: clamp(56px, 7vw, 96px) 0 var(--section); }
+.gallery-section { padding: var(--section-sm) 0 var(--section); }
 .gallery {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -333,19 +280,14 @@ section { position: relative; isolation: isolate; }
 .gallery figcaption strong { font-size: 1.375rem; line-height: 1.3; color: var(--forest); }
 .gallery figcaption span { font-size: 0.875rem; color: var(--muted); white-space: nowrap; }
 .g-wide { grid-column: span 7; }
-.g-wide .frame { aspect-ratio: 4 / 3; }
 .g-narrow { grid-column: span 5; }
-.g-narrow .frame { aspect-ratio: 20 / 21; }
 .g-full { grid-column: 1 / -1; }
-.g-full .frame { aspect-ratio: 21 / 9; }
-/* Desktop: every gallery photo is the same height, whatever its width. */
-@media (min-width: 961px) {
-  .gallery .frame { aspect-ratio: auto; height: clamp(380px, 30vw, 500px); }
-}
+/* Every photo is the same height, whatever its width. */
+.gallery .photo-frame { height: clamp(380px, 30vw, 500px); }
 
 /* Contact */
-.contact-section { padding: clamp(56px, 7vw, 96px) 0 var(--section); }
-.contact-section .wrap {
+.contact-section { padding: var(--section-sm) 0 var(--section); }
+.contact-section .page-width {
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
   gap: 64px clamp(48px, 7vw, 112px);
@@ -370,7 +312,7 @@ section { position: relative; isolation: isolate; }
   background: var(--paper);
   border: 1px solid var(--moss);
   border-radius: 2px;
-  padding: 14px 16px;
+  padding: 16px;
   transition: border-color 0.2s ease;
 }
 .field textarea { min-height: 160px; resize: vertical; }
@@ -386,10 +328,9 @@ section { position: relative; isolation: isolate; }
 .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--forest); }
 /* Outline as well as the border change, so focus stands out at more than 3:1. */
 .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--forest); outline-offset: 2px; border-color: var(--forest); }
-.field [aria-invalid="true"] { border-color: #9a3b2c; }
-.error { font-size: 0.875rem; color: #9a3b2c; min-height: 0; }
+.field [aria-invalid="true"] { border-color: var(--error); }
+.error { font-size: 0.875rem; color: var(--error); }
 .error:empty { display: none; }
-
 
 .form-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin-top: 8px; }
 .form-foot p { font-size: 0.875rem; color: var(--muted); max-width: 26em; }
@@ -398,7 +339,7 @@ section { position: relative; isolation: isolate; }
 
 /* Footer */
 .site-footer { background: var(--forest); color: var(--ivory); }
-.site-footer .wrap { padding-top: 32px; padding-bottom: 24px; }
+.site-footer .page-width { padding: 32px var(--edge-pad) 24px; }
 .footer-top {
   display: flex;
   flex-wrap: wrap;
@@ -427,30 +368,44 @@ section { position: relative; isolation: isolate; }
   color: #d4d1c6;
 }
 
-/* Tablet */
+/* Tablet: single column, photos back inside the page width, content padding drops to the gutter. */
 @media (max-width: 960px) {
+  :root { --page-pad: var(--gutter); --edge-pad: var(--gutter); }
   .header-cta { display: none; }
-  .hero { grid-template-columns: 1fr; padding: 0; gap: 0; }
-  .hero-copy { padding: clamp(56px, 10vw, 88px) var(--gutter) 56px; }
-  .hero .photo .frame { aspect-ratio: 4 / 3; height: auto; min-height: 0; }
-  .intro .wrap, .approach .wrap, .contact-section .wrap { grid-template-columns: 1fr; }
-  .intro .wrap { gap: 24px; }
+
+  .hero { grid-template-columns: 1fr; min-height: 0; padding: 0; }
+  .hero-copy { position: relative; z-index: 1; padding: clamp(56px, 10vw, 88px) var(--gutter) 56px; }
+  .hero .photo-frame { aspect-ratio: 4 / 3; height: auto; min-height: 0; }
+  .hero .photo-frame > img { position: static; }
+  .hero .leaf { width: 260px; top: -40px; left: -90px; transform: scaleX(-1); }
+
+  .intro .page-width, .approach .page-width, .contact-section .page-width { grid-template-columns: 1fr; }
+  .intro .page-width { gap: 24px; }
+  .intro p { justify-self: auto; }
+
+  .services .page-width { grid-template-columns: 1fr; gap: 48px; padding-right: var(--page-pad); }
+  .services-copy { padding-right: 0; }
+  .services-photo .photo-frame { aspect-ratio: 4 / 3; height: auto; margin-inline: calc(var(--gutter) * -1); }
+  .photo-steps { object-position: 50% 74%; }
+
   .approach-copy { grid-column: 1; }
   .approach .leaf { width: 420px; left: auto; right: -140px; bottom: -60px; opacity: 0.35; }
-  .services .wrap { grid-template-columns: 1fr; }
-  .services-photo .frame { aspect-ratio: 4 / 3; margin-inline: calc(var(--gutter) * -1); }
-  .photo-steps { object-position: 50% 74%; }
+
+  .closing { border-top: 1px solid var(--rule); }
+  .closing .page-width { align-items: flex-end; }
+
+  .page-head-contact .leaf { top: -60px; right: -80px; }
+
+  .gallery .photo-frame { height: auto; }
+  .g-wide .photo-frame { aspect-ratio: 4 / 3; }
+  .g-narrow .photo-frame { aspect-ratio: 20 / 21; }
+  .g-full .photo-frame { aspect-ratio: 21 / 9; }
 }
 
 /* Phone */
 @media (max-width: 640px) {
   body { font-size: 1rem; }
-  .site-header .wrap { min-height: 72px; gap: 16px; }
-  /* Narrowest phones: nav drops onto its own line so Contact isn't cut off. */
-  @media (max-width: 400px) {
-    .site-header .wrap { flex-wrap: wrap; row-gap: 4px; padding-top: 12px; padding-bottom: 8px; }
-    .site-nav { width: 100%; }
-  }
+  .site-header .page-width { min-height: 72px; gap: 16px; }
   .brand-mark { width: 136px; }
   .site-nav ul { gap: 20px; }
   .site-nav a { font-size: 0.875rem; }
@@ -458,17 +413,23 @@ section { position: relative; isolation: isolate; }
   .hero-actions .btn { width: 100%; justify-content: space-between; }
   .values { grid-template-columns: 1fr; gap: 24px; }
   .gallery .g-wide, .gallery .g-narrow, .gallery .g-full { grid-column: 1 / -1; }
-  .gallery .frame { aspect-ratio: 4 / 3; margin-inline: calc(var(--gutter) * -1); }
+  .gallery .photo-frame { aspect-ratio: 4 / 3; margin-inline: calc(var(--gutter) * -1); }
   .page-head .leaf { width: 200px; right: -70px; top: -30px; }
   .enquiry { grid-template-columns: 1fr; gap: 24px; }
   .form-foot .btn { width: 100%; justify-content: space-between; }
   .closing .btn { width: 100%; justify-content: space-between; }
-  .site-footer .wrap { padding-top: 24px; padding-bottom: 20px; }
+  .site-footer .page-width { padding-top: 24px; padding-bottom: 20px; }
   .footer-top { padding-bottom: 16px; }
   .footer-top .brand-mark { width: 120px; }
-  .footer-nav ul { gap: 18px; }
+  .footer-nav ul { gap: 20px; }
   .footer-nav a { font-size: 0.875rem; }
   .footer-base { padding-top: 12px; font-size: 0.75rem; }
+}
+
+/* Narrowest phones: the nav drops onto its own line so Contact isn't cut off. */
+@media (max-width: 400px) {
+  .site-header .page-width { flex-wrap: wrap; row-gap: 4px; padding-top: 12px; padding-bottom: 8px; }
+  .site-nav { width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
