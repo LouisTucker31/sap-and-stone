@@ -18,6 +18,7 @@
   --section: clamp(72px, 11vw, 136px);
 
   --logo: url("../assets/images/logo.png");
+  --logo-light: url("../assets/images/logo-light.png");
   --leaf: url("../assets/images/leaf.png");
 }
 
@@ -79,22 +80,18 @@ img { display: block; max-width: 100%; height: auto; }
 
 :focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; }
 
-/* Brand artwork is supplied as alpha masks so one file can be tinted per background. */
+/* Brand artwork is pre-coloured PNGs, so it also shows when index.html is opened straight from disk. */
 .brand-mark {
   display: block;
   width: 200px;
   aspect-ratio: 720 / 124;
-  background: var(--forest);
-  -webkit-mask: var(--logo) no-repeat center / contain;
-  mask: var(--logo) no-repeat center / contain;
+  background: var(--logo) no-repeat center / contain;
 }
 .leaf {
   position: absolute;
   pointer-events: none;
   aspect-ratio: 900 / 587;
-  background: var(--stone);
-  -webkit-mask: var(--leaf) no-repeat center / contain;
-  mask: var(--leaf) no-repeat center / contain;
+  background: var(--leaf) no-repeat center / contain;
   z-index: -1;
 }
 
@@ -206,6 +203,20 @@ section { position: relative; isolation: isolate; }
 .hero .photo { align-self: stretch; }
 .hero .photo .frame { height: 100%; min-height: 560px; }
 .hero .leaf { width: 260px; top: -40px; left: -90px; opacity: 0.45; transform: scaleX(-1); }
+
+/* Desktop hero: photo runs from the centre of the page to the right edge,
+   copy sits further left and is centred in the screen height. */
+@media (min-width: 961px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 50vw;
+    gap: 0;
+    min-height: calc(100vh - 89px);
+    padding-left: max(var(--gutter), 8vw);
+  }
+  .hero-copy { padding: 64px clamp(40px, 5vw, 96px) 64px 0; }
+  /* Keep the tall photo from setting the hero height; it fills whatever the copy needs. */
+  .hero .photo .frame > img { position: absolute; inset: 0; }
+}
 
 /* Home: intro */
 .intro { padding: clamp(56px, 8vw, 104px) 0; }
@@ -349,7 +360,7 @@ section { position: relative; isolation: isolate; }
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(248, 244, 234, 0.18);
 }
-.footer-top .brand-mark { background: var(--ivory); width: 160px; }
+.footer-top .brand-mark { background-image: var(--logo-light); width: 160px; }
 .footer-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 28px; }
 .footer-nav a, .footer-base a { color: var(--ivory); text-decoration: none; }
 .footer-nav a { font-size: 0.9375rem; }
