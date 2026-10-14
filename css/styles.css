@@ -160,6 +160,11 @@ img { display: block; max-width: 100%; height: auto; }
 
 .header-cta { padding: 12px 22px; }
 
+/* Desktop: header and footer run wider than the content, closer to the screen edges. */
+@media (min-width: 961px) {
+  .site-header .wrap, .site-footer .wrap { max-width: none; padding-inline: max(var(--gutter), 4vw); }
+}
+
 /* Pages */
 .js [data-page]:not(.is-active) { display: none; }
 
@@ -216,6 +221,9 @@ section { position: relative; isolation: isolate; }
   .hero-copy { padding: 64px clamp(40px, 5vw, 96px) 64px 0; }
   /* Keep the tall photo from setting the hero height; it fills whatever the copy needs. */
   .hero .photo .frame > img { position: absolute; inset: 0; }
+  /* Leaf grows out of the top-left corner of the hero, just under the header. */
+  .hero-copy { position: static; }
+  .hero .leaf { width: clamp(380px, 30vw, 600px); top: -70px; left: -90px; }
 }
 
 /* Home: intro */
@@ -227,6 +235,9 @@ section { position: relative; isolation: isolate; }
   align-items: end;
 }
 .intro p { color: var(--muted); font-size: 1.125rem; max-width: 32em; }
+@media (min-width: 961px) {
+  .intro .wrap { align-items: center; }
+}
 
 /* Home: services. Same text pattern as the approach section below, mirrored so the photo sits right. */
 .services { padding: var(--section) 0; }
@@ -239,6 +250,9 @@ section { position: relative; isolation: isolate; }
 .services-copy h2 { margin-bottom: 32px; max-width: 12em; }
 .services-copy > p { color: var(--muted); max-width: 32em; margin-bottom: 48px; }
 .services-photo .frame { aspect-ratio: 4 / 5; }
+@media (min-width: 961px) {
+  .services .wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px clamp(48px, 5vw, 80px); }
+}
 
 /* Home: approach */
 .approach { padding: var(--section) 0; overflow: hidden; }
@@ -263,6 +277,10 @@ section { position: relative; isolation: isolate; }
 .closing .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px 48px; }
 .closing h2 { max-width: 14em; }
 .closing p { color: var(--muted); margin-top: 16px; }
+@media (min-width: 961px) {
+  .closing { border-top: 0; }
+  .closing .wrap { align-items: center; }
+}
 
 /* Inner page headings */
 .page-head { padding: var(--section) 0 clamp(56px, 7vw, 88px); overflow: hidden; }
