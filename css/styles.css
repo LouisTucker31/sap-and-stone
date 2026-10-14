@@ -158,6 +158,7 @@ img { display: block; max-width: 100%; height: auto; }
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
+/* Icons are from Lucide (ISC licence, see assets/icons/LICENSE-lucide.txt), drawn at 1.5 stroke to suit the light type. */
 .btn svg { width: 18px; height: 18px; transition: transform 0.25s ease; }
 .btn:hover { background: var(--forest-deep); }
 .btn:hover svg { transform: translateX(4px); }
@@ -355,10 +356,7 @@ section { position: relative; isolation: isolate; }
 .field textarea { min-height: 160px; resize: vertical; }
 .field select {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--charcoal) 50%), linear-gradient(135deg, var(--charcoal) 50%, transparent 50%);
-  background-position: calc(100% - 22px) 50%, calc(100% - 17px) 50%;
-  background-size: 5px 5px;
-  background-repeat: no-repeat;
+  background: var(--paper) url("../assets/icons/chevron-down.svg") no-repeat right 16px center / 18px;
   padding-right: 48px;
 }
 .field input::placeholder, .field textarea::placeholder { color: #706e65; }
