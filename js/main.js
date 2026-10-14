@@ -54,12 +54,18 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('popstate', syncFromUrl);
   window.addEventListener('hashchange', syncFromUrl);
   show(pageFromHash() || 'home', false);
+  // A direct link to #gallery or #contact makes the browser jump to that page's container,
+  // hiding the header. Start at the top instead.
+  window.addEventListener('load', function () {
+    if (pageFromHash()) window.scrollTo(0, 0);
+  });
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // Enquiry form
   var form = document.getElementById('enquiry');
   var status = document.getElementById('form-status');
+  var fieldAlert = document.getElementById('field-alert');
   var messages = {
     name: 'Please enter your name.',
     email: 'Please enter a valid email address, for example name@example.com.',
@@ -78,19 +84,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   form.querySelectorAll('[aria-describedby]').forEach(function (input) {
     input.addEventListener('blur', function () {
-      if (input.value || input.getAttribute('aria-invalid') === 'true') checkField(input);
+      if (!input.value && input.getAttribute('aria-invalid') !== 'true') return;
+      // Errors appear silently on screen, so read them out to screen readers too.
+      fieldAlert.textContent = checkField(input) ? '' : messages[input.name];
     });
   });
+
+  function fieldName(input) {
+    return form.querySelector('label[for="' + input.id + '"]').firstChild.textContent.trim();
+  }
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     status.textContent = '';
-    var firstInvalid = null;
+    fieldAlert.textContent = '';
+    var invalid = [];
     form.querySelectorAll('[aria-describedby]').forEach(function (input) {
-      if (!checkField(input) && !firstInvalid) firstInvalid = input;
+      if (!checkField(input)) invalid.push(input);
     });
-    if (firstInvalid) {
-      firstInvalid.focus();
+    if (invalid.length) {
+      status.textContent = 'Please check ' + (invalid.length === 1 ? 'this field' : 'these ' + invalid.length + ' fields') +
+        ': ' + invalid.map(fieldName).join(', ') + '.';
+      invalid[0].focus();
       return;
     }
 

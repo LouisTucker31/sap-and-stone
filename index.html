@@ -188,12 +188,12 @@
         <!-- TODO: set data-endpoint to the form handler (Formspree, Netlify Forms or your own) and add its origin to connect-src in the CSP. -->
         <form class="enquiry" id="enquiry" data-endpoint="" novalidate aria-label="Send an enquiry">
           <div class="field">
-            <label for="f-name">Your name</label>
+            <label for="f-name">Your name <small>(required)</small></label>
             <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="f-name-error">
             <p class="error" id="f-name-error"></p>
           </div>
           <div class="field">
-            <label for="f-email">Email address</label>
+            <label for="f-email">Email address <small>(required)</small></label>
             <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com" aria-describedby="f-email-error">
             <p class="error" id="f-email-error"></p>
           </div>
@@ -217,7 +217,7 @@
             </select>
           </div>
           <div class="field full">
-            <label for="f-message">Tell us about your garden</label>
+            <label for="f-message">Tell us about your garden <small>(required)</small></label>
             <textarea id="f-message" name="message" required minlength="10" maxlength="2000" placeholder="Size, what you like, what you would change" aria-describedby="f-message-error"></textarea>
             <p class="error" id="f-message-error"></p>
           </div>
@@ -228,6 +228,7 @@
             <p>We only use your details to reply to your enquiry.</p>
           </div>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          <p class="visually-hidden" id="field-alert" aria-live="polite"></p>
         </form>
       </div>
     </section>

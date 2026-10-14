@@ -82,6 +82,16 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .skip:focus { top: 16px; }
 
+/* Read by screen readers, not shown on screen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 :focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; }
 
 /* Brand artwork is pre-coloured PNGs, so it also shows when index.html is opened straight from disk. */
@@ -358,7 +368,7 @@ section { position: relative; isolation: isolate; }
   font: 400 1rem/1.4 var(--sans);
   color: var(--charcoal);
   background: var(--paper);
-  border: 1px solid #a8a292;
+  border: 1px solid var(--moss);
   border-radius: 2px;
   padding: 14px 16px;
   transition: border-color 0.2s ease;
@@ -372,9 +382,10 @@ section { position: relative; isolation: isolate; }
   background-repeat: no-repeat;
   padding-right: 48px;
 }
-.field input::placeholder, .field textarea::placeholder { color: #77756c; }
-.field input:hover, .field select:hover, .field textarea:hover { border-color: var(--moss); }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 1px var(--forest); }
+.field input::placeholder, .field textarea::placeholder { color: #706e65; }
+.field input:hover, .field select:hover, .field textarea:hover { border-color: var(--forest); }
+/* Outline as well as the border change, so focus stands out at more than 3:1. */
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--forest); outline-offset: 2px; border-color: var(--forest); }
 .field [aria-invalid="true"] { border-color: #9a3b2c; }
 .error { font-size: 0.875rem; color: #9a3b2c; min-height: 0; }
 .error:empty { display: none; }
@@ -400,6 +411,10 @@ section { position: relative; isolation: isolate; }
 .footer-top .brand-mark { background-image: var(--logo-light); width: 160px; }
 .footer-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 28px; }
 .footer-nav a, .footer-base a { color: var(--ivory); text-decoration: none; }
+/* Taller tap area without changing the footer layout. */
+.footer-nav a, .footer-base a, .footer-top > a { display: inline-block; padding: 4px 0; margin: -4px 0; }
+/* The default dark green focus ring would vanish on the footer background. */
+.site-footer :focus-visible { outline-color: var(--ivory); }
 .footer-nav a { font-size: 0.9375rem; }
 .footer-nav a:hover, .footer-base a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .footer-base {
@@ -419,7 +434,6 @@ section { position: relative; isolation: isolate; }
   .hero-copy { padding: clamp(56px, 10vw, 88px) var(--gutter) 56px; }
   .hero .photo .frame { aspect-ratio: 4 / 3; height: auto; min-height: 0; }
   .intro .wrap, .approach .wrap, .contact-section .wrap { grid-template-columns: 1fr; }
-  .enquiry { order: -1; }
   .intro .wrap { gap: 24px; }
   .approach-copy { grid-column: 1; }
   .approach .leaf { width: 420px; left: auto; right: -140px; bottom: -60px; opacity: 0.35; }
@@ -432,6 +446,11 @@ section { position: relative; isolation: isolate; }
 @media (max-width: 640px) {
   body { font-size: 1rem; }
   .site-header .wrap { min-height: 72px; gap: 16px; }
+  /* Narrowest phones: nav drops onto its own line so Contact isn't cut off. */
+  @media (max-width: 400px) {
+    .site-header .wrap { flex-wrap: wrap; row-gap: 4px; padding-top: 12px; padding-bottom: 8px; }
+    .site-nav { width: 100%; }
+  }
   .brand-mark { width: 136px; }
   .site-nav ul { gap: 20px; }
   .site-nav a { font-size: 0.875rem; }
