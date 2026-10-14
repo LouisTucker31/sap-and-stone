@@ -297,6 +297,10 @@ section { position: relative; isolation: isolate; }
 .page-head { padding: var(--section) 0 clamp(56px, 7vw, 88px); overflow: hidden; }
 .page-head h1 { margin-bottom: 24px; max-width: 12em; }
 .page-head .leaf { width: 340px; top: -60px; right: -80px; opacity: 0.5; transform: rotate(180deg) scaleX(-1); }
+/* Desktop contact page: leaf sits lower and further in so more of it shows. */
+@media (min-width: 961px) {
+  #contact .page-head .leaf { top: 0; right: 40px; }
+}
 
 /* Gallery */
 .gallery-section { padding: clamp(56px, 7vw, 96px) 0 var(--section); }
