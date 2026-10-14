@@ -223,7 +223,8 @@ section { position: relative; isolation: isolate; }
   .hero .photo .frame > img { position: absolute; inset: 0; }
   /* Leaf grows out of the top-left corner of the hero, just under the header. */
   .hero-copy { position: static; }
-  .hero .leaf { width: clamp(380px, 30vw, 600px); top: -70px; left: -90px; }
+  /* Flipped vertically so the leaf's cut edge runs along the bottom of the header. */
+  .hero .leaf { width: clamp(380px, 30vw, 600px); top: 0; left: 0; transform: scaleY(-1); }
 }
 
 /* Home: intro */
@@ -313,6 +314,10 @@ section { position: relative; isolation: isolate; }
 .g-narrow .frame { aspect-ratio: 20 / 21; }
 .g-full { grid-column: 1 / -1; }
 .g-full .frame { aspect-ratio: 21 / 9; }
+/* Desktop: every gallery photo is the same height, whatever its width. */
+@media (min-width: 961px) {
+  .gallery .frame { aspect-ratio: auto; height: clamp(380px, 30vw, 500px); }
+}
 
 /* Contact */
 .contact-section { padding: clamp(56px, 7vw, 96px) 0 var(--section); }
